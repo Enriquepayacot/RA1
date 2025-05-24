@@ -12,8 +12,10 @@ with open(creds_path, "w") as f:
 
 # Autenticación
 gauth = GoogleAuth()
-gauth.credentials = gauth.LoadServiceAccountCredentials(creds_path)
+gauth.LoadServiceConfigFile(creds_path)
+gauth.ServiceAuth()
 drive = GoogleDrive(gauth)
+
 
 
 # ID del archivo (lo puedes obtener una vez desde el navegador)
