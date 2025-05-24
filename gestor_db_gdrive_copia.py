@@ -7,7 +7,8 @@ import json
 # Guardar los secrets en un archivo temporal JSON
 creds_path = "/tmp/creds.json"
 with open(creds_path, "w") as f:
-    json.dump(st.secrets["gdrive"], f)
+    json.dump(dict(st.secrets["gdrive"]), f)
+
 
 # Autenticación
 gauth = GoogleAuth()
