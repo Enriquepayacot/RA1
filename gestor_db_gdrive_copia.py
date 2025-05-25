@@ -99,6 +99,6 @@ def mostrar_formulario_y_tabla():
 
 
 ### Llamadas finales a funciones o bloques de código
-#mostrar_tablas_generales()  # ← Descomenta esta línea si quieres visualizar todas las tablas
+mostrar_tablas_generales()  # ← Descomenta esta línea si quieres visualizar todas las tablas
 mostrar_formulario_y_tabla()
 
