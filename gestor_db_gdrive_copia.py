@@ -1,10 +1,15 @@
-#### Bloque de conexión al archivo en Google Drive
+
 
 import streamlit as st
+import sqlite3
+import pandas as pd
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 from oauth2client.service_account import ServiceAccountCredentials
 
+
+
+#### Bloque de conexión al archivo en Google Drive
 # Crear credenciales directamente desde st.secrets
 scope = ['https://www.googleapis.com/auth/drive']
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(
@@ -28,28 +33,24 @@ st.success("Base de datos descargada correctamente")
 
 
 
-### Bloque de gestión de la base de datos
+# Comprobación de que Conectar y muestra la base de datos SQLite. Solo la muestra. Bloque no esencial
+def mostrar_tablas_generales():
+    conn = sqlite3.connect("registroartroplastias.db")
 
-import sqlite3
-import pandas as pd
+    # Leer el nombre de todas las tablas
+    tablas = pd.read_sql("SELECT name FROM sqlite_master WHERE type='table';", conn)
+    st.subheader("Tablas en la base de datos:")
+    st.dataframe(tablas)
 
-# Conectar a la base de datos SQLite
-conn = sqlite3.connect("registroartroplastias.db")
+    # Leer y mostrar la primera tabla (ajusta el nombre si es necesario)
+    nombre_tabla = tablas.iloc[0, 0] if not tablas.empty else None
 
-# Leer el nombre de todas las tablas
-tablas = pd.read_sql("SELECT name FROM sqlite_master WHERE type='table';", conn)
-st.subheader("Tablas en la base de datos:")
-st.dataframe(tablas)
-
-# Leer y mostrar la primera tabla (ajusta el nombre si es necesario)
-nombre_tabla = tablas.iloc[0, 0] if not tablas.empty else None
-
-if nombre_tabla:
-    st.subheader(f"Contenido de la tabla '{nombre_tabla}':")
-    df = pd.read_sql(f"SELECT * FROM {nombre_tabla};", conn)
-    st.dataframe(df)
-else:
-    st.warning("No se encontraron tablas en la base de datos.")
+    if nombre_tabla:
+        st.subheader(f"Contenido de la tabla '{nombre_tabla}':")
+        df = pd.read_sql(f"SELECT * FROM {nombre_tabla};", conn)
+        st.dataframe(df)
+    else:
+        st.warning("No se encontraron tablas en la base de datos.")
     
     
 
@@ -100,4 +101,6 @@ def mostrar_formulario_y_tabla():
 
 
 ### Llamadas finales a funciones o bloques de código
+# mostrar_tablas_generales()  # ← Descomenta esta línea si quieres visualizar todas las tablas
 mostrar_formulario_y_tabla()
+
