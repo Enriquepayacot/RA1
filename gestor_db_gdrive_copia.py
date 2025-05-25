@@ -54,7 +54,8 @@ def mostrar_tablas_generales():
 
 ## Bloque de adición de registros y actualización
 def mostrar_formulario_y_tabla():
-    conn = sqlite3.connect('registroartroplastias.db', check_same_thread=False)
+    conn = sqlite3.connect("registroartroplastias.db")    
+    #conn = sqlite3.connect('registroartroplastias.db', check_same_thread=False)
     c = conn.cursor()
 
     st.title("Registro zonal de Artroplastias - SOTOCAV")
